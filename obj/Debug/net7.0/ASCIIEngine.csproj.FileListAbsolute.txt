@@ -1,0 +1,12 @@
+C:\Users\Dev\source\repos\ASCIIEngine\obj\Debug\net7.0\ASCIIEngine.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dev\source\repos\ASCIIEngine\obj\Debug\net7.0\ASCIIEngine.AssemblyInfoInputs.cache
+C:\Users\Dev\source\repos\ASCIIEngine\obj\Debug\net7.0\ASCIIEngine.AssemblyInfo.cs
+C:\Users\Dev\source\repos\ASCIIEngine\obj\Debug\net7.0\ASCIIEngine.csproj.CoreCompileInputs.cache
+C:\Users\Dev\source\repos\ASCIIEngine\bin\Debug\net7.0\ASCIIEngine.deps.json
+C:\Users\Dev\source\repos\ASCIIEngine\bin\Debug\net7.0\ASCIIEngine.dll
+C:\Users\Dev\source\repos\ASCIIEngine\bin\Debug\net7.0\ASCIIEngine.pdb
+C:\Users\Dev\source\repos\ASCIIEngine\obj\Debug\net7.0\ASCIIEngine.dll
+C:\Users\Dev\source\repos\ASCIIEngine\obj\Debug\net7.0\refint\ASCIIEngine.dll
+C:\Users\Dev\source\repos\ASCIIEngine\obj\Debug\net7.0\ASCIIEngine.pdb
+C:\Users\Dev\source\repos\ASCIIEngine\obj\Debug\net7.0\ref\ASCIIEngine.dll
+C:\Users\Dev\source\repos\ASCIIEngine\obj\Debug\net7.0\ASCIIEngine.csproj.AssemblyReference.cache
