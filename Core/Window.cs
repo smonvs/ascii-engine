@@ -174,7 +174,6 @@ namespace ASCIIEngine.Core
         private int _windowHeight;
         private IntPtr _hFont;
         private MSG _msg;
-        private bool[] keys = new bool[128];
 
         private BufferManager _bufferManager;
         private Buffer _lastBuffer;
@@ -227,7 +226,7 @@ namespace ASCIIEngine.Core
             int currentStyle = GetWindowLong(hMainWnd, GWL_STYLE);
             SetWindowLong(hMainWnd, GWL_STYLE, currentStyle & ~WS_MINIMIZEBOX & ~WS_MAXIMIZEBOX & ~WS_THICKFRAME);
 
-            _hFont = CreateFont(16, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, "Courier New");
+            _hFont = CreateFont(16, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, "Consolas");
 
             hdc = GetDC(hMainWnd);
             GetWindowRect(hMainWnd, ref rect);
@@ -258,7 +257,6 @@ namespace ASCIIEngine.Core
 
             while (PeekMessage(out _msg, IntPtr.Zero, 0, 0, 1))
             {
-                GetMessage(out _msg, IntPtr.Zero, 0, 0);
                 TranslateMessage(ref _msg);
                 DispatchMessage(ref _msg);
             }
@@ -309,17 +307,17 @@ namespace ASCIIEngine.Core
         private IntPtr WndProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam)
         {
 
+            Key key;
+
             switch (msg)
             {
                 case 0x0100: // WM_KEYDOWN
-                    char key = (char)wParam.ToInt32();
-                    Console.WriteLine(key);
+                    key = Key.ConvertFromKeyCode(wParam.ToInt32());
+                    if (key != null) key.IsPressed = true;
                     break;
                 case 0x0101: // WM_KEYUP
-                    break;
-                case 0x0200: // WM_MOUSEMOVE
-                    break;
-                case 0x00A0:
+                    key = Key.ConvertFromKeyCode(wParam.ToInt32());
+                    if (key != null) key.IsPressed = false;
                     break;
                 case 0x0010: // WM_CLOSE
                     PostQuitMessage(0);

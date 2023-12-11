@@ -22,10 +22,12 @@ namespace ASCIIEngine.Core
         public Scene AddScene(string sceneName)
         {
 
-            if (GetScene(sceneName) != null) throw new DuplicateNameException();
+            if (GetScene(sceneName) != null) throw new DuplicateNameException("Scene", sceneName);
 
             Scene newScene = new Scene(sceneName);
             _scenes.Add(sceneName, newScene);
+
+            Log.Write($"Scene '{sceneName}' added");
 
             return newScene;
 
@@ -45,35 +47,53 @@ namespace ASCIIEngine.Core
 
         }
 
-        public void SwitchScene(string sceneName)
+        public void SwitchScene(string sceneName, bool disableOthers)
         {
 
-            Scene scene = GetScene(sceneName);
+            Scene newScene = GetScene(sceneName);
 
-            if(scene != null)
+            if(newScene != null)
             {
-                _currentScene = scene;
+                
+                _currentScene = newScene;
                 _currentScene.IsActive = true;
+
+                if (disableOthers)
+                {
+                    foreach (Scene scene in _scenes.Values) if(scene != _currentScene) scene.IsActive = false;
+                }
+
             }
             else
             {
-                throw new SceneNotFoundException();
+                throw new SceneNotFoundException(sceneName);
             }
+
+            Log.Write($"Switched current scene to '{sceneName}'");
 
         }
 
-        public void SwitchScene(Scene scene)
+        public void SwitchScene(Scene newScene, bool disableOthers)
         {
 
-            if (_scenes.ContainsValue(scene))
+            if (_scenes.ContainsValue(newScene))
             {
-                _currentScene = scene;
+
+                _currentScene = newScene;
                 _currentScene.IsActive = true;
+
+                if (disableOthers)
+                {
+                    foreach (Scene scene in _scenes.Values) if (scene != _currentScene) scene.IsActive = false;
+                }
+
             }
             else
             {
-                throw new SceneNotFoundException();
+                throw new SceneNotFoundException(newScene.Name);
             }
+
+            Log.Write($"Switched current scene to '{newScene.Name}'");
 
         }
 

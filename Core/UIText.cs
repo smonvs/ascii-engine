@@ -6,6 +6,7 @@ namespace ASCIIEngine.Core
     public class UIText : Component
     {
 
+        public Vector2 Position { get; set; }
         public string Text { get; set; }
         public Color ForegroundColor { get; set; }
         public Color BackgroundColor { get; set; }
@@ -16,19 +17,26 @@ namespace ASCIIEngine.Core
         protected override void Initialize()
         {
 
-            Text = "";
+            Text = "Text";
             ForegroundColor = Color.White;
             BackgroundColor = Color.Black;
 
+        }
+
+        protected override void Start()
+        {
+
             _buffer = BufferManager.Instance.Buffer;
             _transform = GetComponent<Transform>();
+
+            Position = _transform.Position;
 
         }
 
         protected override void Draw()
         {
 
-            Vector2 position = _transform.Position;
+            Vector2 position = Position;
 
             for(int i = 0; i < Text.Length; i++)
             {

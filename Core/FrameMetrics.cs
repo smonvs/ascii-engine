@@ -11,14 +11,16 @@ namespace ASCIIEngine.Core
     public static class FrameMetrics
     {
 
+        public static int TotalRuntime { get { return (int)_runtimeStopwatch.Elapsed.TotalSeconds; } }
         public static int FramesPerSecond { get; private set; }
         public static float FrameTime { get; private set; }
         public static float CalcTime { get; private set; }
         public static float DeltaTime { get; private set; }
 
-        private const float TARGET_FRAMERATE = 30f;
+        private const float TARGET_FRAMERATE = 30.0f;
         private const float TARGET_FRAMETIME = (1.0f / TARGET_FRAMERATE) * 1000;
 
+        private static Stopwatch _runtimeStopwatch;
         private static Stopwatch _stopwatch;
         private static int _frameCount;
         private static float _accumulatedTime;
@@ -31,10 +33,12 @@ namespace ASCIIEngine.Core
             CalcTime = 0f;
             DeltaTime = 0f;
 
+            _runtimeStopwatch = new Stopwatch();
             _stopwatch = new Stopwatch();
             _frameCount = 0;
             _accumulatedTime = 0f;
 
+            _runtimeStopwatch.Start();
             _stopwatch.Start();
 
         }
@@ -68,7 +72,6 @@ namespace ASCIIEngine.Core
 
             _stopwatch.Restart();
 
-            //Console.WriteLine($"fps: {FramesPerSecond} | calc time: {(int)CalcTime} ms | frame time: {(int)FrameTime} ms | delta time: {DeltaTime}");
         }
 
     }

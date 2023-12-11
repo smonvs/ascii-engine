@@ -23,19 +23,19 @@ namespace ASCIIEngine.Core
             Name = entityName;
             Scene = scene;
             _parent = parent;
-
-            AddComponent<Transform>();
         
         }
 
         public T AddComponent<T>() where T : Component
         {
 
-            if (GetComponent<T>() != null) throw new DuplicateComponentException();
+            if (GetComponent<T>() != null) throw new DuplicateComponentException(this);
 
             Component newComponent = Activator.CreateInstance<T>();
             newComponent.InitializeInternally(this);
             _components.Add(newComponent);
+
+            Log.Write($"Component of type '{typeof(T).Name}' added to Entity '{this.Name}'");
 
             return (T)newComponent;
 
@@ -93,6 +93,13 @@ namespace ASCIIEngine.Core
             {
                 throw new KeyNotFoundException();
             }
+
+        }
+
+        public Entity[] GetChildren()
+        {
+
+            return _children.Values.ToArray();
 
         }
 
