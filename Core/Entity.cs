@@ -1,5 +1,6 @@
 ﻿using System;
 using ASCIIEngine.Exceptions;
+using ASCIIEngine.Utility;
 
 namespace ASCIIEngine.Core
 {
@@ -10,6 +11,7 @@ namespace ASCIIEngine.Core
         public bool IsVisible { get; set; }
         public string Name { get; private set; }
         public Scene Scene { get; private set; }
+        public Transform Transform { get; private set; }
 
         private List<Component> _components = new List<Component>();
         private Dictionary<string, Entity> _children = new Dictionary<string, Entity>();
@@ -23,7 +25,6 @@ namespace ASCIIEngine.Core
             Name = entityName;
             Scene = scene;
             _parent = parent;
-        
         }
 
         public T AddComponent<T>() where T : Component
@@ -36,6 +37,8 @@ namespace ASCIIEngine.Core
             _components.Add(newComponent);
 
             Log.Write($"Component of type '{typeof(T).Name}' added to Entity '{this.Name}'");
+
+            if (newComponent is Transform) Transform = (Transform)newComponent;
 
             return (T)newComponent;
 
@@ -63,7 +66,10 @@ namespace ASCIIEngine.Core
         public Entity AddChild(string entityName)
         {
 
-            return Scene.AddEntity(entityName, this);
+            Entity newChild = Scene.AddEntity(entityName, this);
+            _children.Add(newChild.Name, newChild);
+
+            return newChild;
 
         }
 

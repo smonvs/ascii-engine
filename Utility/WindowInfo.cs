@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace ASCIIEngine.Core
+namespace ASCIIEngine.Utility
 {
     public static class WindowInfo
     {

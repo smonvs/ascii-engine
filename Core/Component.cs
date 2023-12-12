@@ -7,6 +7,7 @@ namespace ASCIIEngine.Core
 
         public bool IsActive { get; set; }
         public Entity Entity { get; private set; }
+        public Transform Transform { get { return Entity.Transform; } }
 
         private bool _hasStarted = false;
 

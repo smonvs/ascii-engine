@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Reflection;
 
-namespace ASCIIEngine.Core
+namespace ASCIIEngine.Utility
 {
     public class Key
     {
 
         internal string KeyName { get; private set; }
         internal bool IsPressed { get; set; }
+        internal bool WasPressedLastFrame { get; set; }
 
         private Key(string keyName)
         {
             KeyName = keyName;
             IsPressed = false;
+            WasPressedLastFrame = false;
             Keys.Add(this);
         }
 
@@ -112,6 +114,7 @@ namespace ASCIIEngine.Core
                 case 0x10: return Shift;
                 case 0x11: return Control;
                 case 0x12: return Alt;
+                case 0x20: return Spacebar;
                 case 0x41: return A;
                 case 0x42: return B;
                 case 0x43: return C;

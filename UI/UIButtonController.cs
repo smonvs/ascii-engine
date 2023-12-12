@@ -1,8 +1,8 @@
-﻿using System;
-using System.ComponentModel;
+﻿using ASCIIEngine.Core;
+using System;
 using System.Drawing;
 
-namespace ASCIIEngine.Core
+namespace ASCIIEngine.UI
 {
     public class UIButtonController : Component
     {

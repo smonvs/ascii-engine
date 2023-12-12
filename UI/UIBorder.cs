@@ -1,7 +1,8 @@
-﻿using System;
+﻿using ASCIIEngine.Core;
+using System;
 using System.Drawing;
 
-namespace ASCIIEngine.Core
+namespace ASCIIEngine.UI
 {
     public class UIBorder : Component
     {
@@ -12,7 +13,7 @@ namespace ASCIIEngine.Core
         public Color BackgroundColor { get; set; }
 
         private Transform _transform;
-        private Buffer _buffer;
+        private Core.Buffer _buffer;
 
         protected override void Initialize()
         {

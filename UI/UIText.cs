@@ -1,7 +1,8 @@
-﻿using System;
+﻿using ASCIIEngine.Core;
+using ASCIIEngine.Utility;
 using System.Drawing;
 
-namespace ASCIIEngine.Core
+namespace ASCIIEngine.UI
 {
     public class UIText : Component
     {
@@ -11,7 +12,7 @@ namespace ASCIIEngine.Core
         public Color ForegroundColor { get; set; }
         public Color BackgroundColor { get; set; }
 
-        private Buffer _buffer;
+        private Core.Buffer _buffer;
         private Transform _transform;
 
         protected override void Initialize()

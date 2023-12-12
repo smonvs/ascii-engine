@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ASCIIEngine.Core
+namespace ASCIIEngine.Utility
 {
     public static class FrameMetrics
     {
@@ -17,7 +17,7 @@ namespace ASCIIEngine.Core
         public static float CalcTime { get; private set; }
         public static float DeltaTime { get; private set; }
 
-        private const float TARGET_FRAMERATE = 30.0f;
+        private const float TARGET_FRAMERATE = 30f;
         private const float TARGET_FRAMETIME = (1.0f / TARGET_FRAMERATE) * 1000;
 
         private static Stopwatch _runtimeStopwatch;

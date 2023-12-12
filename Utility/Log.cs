@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ASCIIEngine.Core
+namespace ASCIIEngine.Utility
 {
     public static class Log
     {

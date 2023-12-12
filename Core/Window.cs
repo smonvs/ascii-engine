@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using ASCIIEngine.Utility;
 using static ASCIIEngine.Core.Window;
 
 namespace ASCIIEngine.Core
@@ -313,16 +314,22 @@ namespace ASCIIEngine.Core
             {
                 case 0x0100: // WM_KEYDOWN
                     key = Key.ConvertFromKeyCode(wParam.ToInt32());
-                    if (key != null) key.IsPressed = true;
+                    if (key != null)
+                    {
+                        key.IsPressed = true;
+                    }
                     break;
                 case 0x0101: // WM_KEYUP
                     key = Key.ConvertFromKeyCode(wParam.ToInt32());
-                    if (key != null) key.IsPressed = false;
+                    if (key != null)
+                    {
+                        key.IsPressed = false;
+                    }
                     break;
                 case 0x0010: // WM_CLOSE
                     PostQuitMessage(0);
                     DestroyWindow(hWnd);
-                    Environment.Exit(0);
+                    Game.Running = false;
                     break;
                 default:
                     return DefWindowProc(hWnd, msg, wParam, lParam);

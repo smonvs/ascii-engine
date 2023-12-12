@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ASCIIEngine.Core;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ASCIIEngine.Core
+namespace ASCIIEngine.UI
 {
     public class UIButton : Component
     {
@@ -18,7 +15,7 @@ namespace ASCIIEngine.Core
         public bool Selected { get; set; }
 
         private Transform _transform;
-        private Buffer _buffer;
+        private Core.Buffer _buffer;
 
         protected override void Initialize()
         {

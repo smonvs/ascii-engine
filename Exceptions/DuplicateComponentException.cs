@@ -1,4 +1,5 @@
 ﻿using ASCIIEngine.Core;
+using ASCIIEngine.Utility;
 using System;
 
 namespace ASCIIEngine.Exceptions

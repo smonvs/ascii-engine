@@ -1,5 +1,6 @@
 ﻿using System;
 using ASCIIEngine.Exceptions;
+using ASCIIEngine.Utility;
 
 namespace ASCIIEngine.Core
 {
@@ -56,12 +57,13 @@ namespace ASCIIEngine.Core
             {
                 
                 _currentScene = newScene;
-                _currentScene.IsActive = true;
 
                 if (disableOthers)
                 {
-                    foreach (Scene scene in _scenes.Values) if(scene != _currentScene) scene.IsActive = false;
+                    foreach (Scene scene in _scenes.Values) if(scene.Name != _currentScene.Name) scene.IsActive = false;
                 }
+
+                _currentScene.IsActive = true;
 
             }
             else
@@ -76,24 +78,7 @@ namespace ASCIIEngine.Core
         public void SwitchScene(Scene newScene, bool disableOthers)
         {
 
-            if (_scenes.ContainsValue(newScene))
-            {
-
-                _currentScene = newScene;
-                _currentScene.IsActive = true;
-
-                if (disableOthers)
-                {
-                    foreach (Scene scene in _scenes.Values) if (scene != _currentScene) scene.IsActive = false;
-                }
-
-            }
-            else
-            {
-                throw new SceneNotFoundException(newScene.Name);
-            }
-
-            Log.Write($"Switched current scene to '{newScene.Name}'");
+            SwitchScene(newScene.Name, disableOthers);
 
         }
 
