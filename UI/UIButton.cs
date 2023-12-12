@@ -13,6 +13,8 @@ namespace ASCIIEngine.UI
         public Color ForegroundColorHighlight { get; set; }
         public Color BackgroundColorHighlight { get; set; }
         public bool Selected { get; set; }
+        public Action OnClick { get; set; }
+
 
         private Transform _transform;
         private Core.Buffer _buffer;

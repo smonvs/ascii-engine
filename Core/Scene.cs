@@ -11,7 +11,7 @@ namespace ASCIIEngine.Core
         public string Name { get; private set; }
 
         private Dictionary<string, Screen> _screens = new Dictionary<string, Screen>();
-        private Dictionary<string, Entity> _entities = new Dictionary<string, Entity>();
+        private List<Entity> _entities = new List<Entity>();
         private bool _isActive;
 
         internal Scene(string name)
@@ -74,7 +74,7 @@ namespace ASCIIEngine.Core
             if (GetEntity(entityName) != null) throw new DuplicateNameException("Entity", entityName);
 
             Entity newEntity = new Entity(entityName, this, parent);
-            _entities.Add(entityName, newEntity);
+            _entities.Add(newEntity);
 
             if(parent == null)
             {
@@ -94,23 +94,21 @@ namespace ASCIIEngine.Core
         public Entity GetEntity(string entityName)
         {
 
-            if (_entities.ContainsKey(entityName))
+            foreach(Entity entity in _entities)
             {
-                return _entities[entityName];
+                if (entity.Name == entityName) return entity;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
 
         }
 
         internal void UpdateEntities()
         {
 
-            foreach (Entity entity in _entities.Values)
+            for(int i = 0; i < _entities.Count; i++)
             {
-                if (entity.IsActive) entity.UpdateComponents();
+                if (_entities[i].IsActive) _entities[i].UpdateComponents();
             }
 
         }
@@ -118,9 +116,9 @@ namespace ASCIIEngine.Core
         internal void DrawEntities()
         {
 
-            foreach (Entity entity in _entities.Values)
+            for(int i = 0; i < _entities.Count; i++)
             {
-                if (entity.IsActive && entity.IsVisible) entity.DrawComponents();
+                if (_entities[i].IsActive && _entities[i].IsVisible) _entities[i].DrawComponents();
             }
 
         }

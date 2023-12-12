@@ -14,7 +14,7 @@ namespace ASCIIEngine.Core
         public Transform Transform { get; private set; }
 
         private List<Component> _components = new List<Component>();
-        private Dictionary<string, Entity> _children = new Dictionary<string, Entity>();
+        private List<Entity> _children = new List<Entity>();
         private Entity _parent;
 
         internal Entity(string entityName, Scene scene, Entity parent)
@@ -67,7 +67,7 @@ namespace ASCIIEngine.Core
         {
 
             Entity newChild = Scene.AddEntity(entityName, this);
-            _children.Add(newChild.Name, newChild);
+            _children.Add(newChild);
 
             return newChild;
 
@@ -76,36 +76,26 @@ namespace ASCIIEngine.Core
         public Entity GetChild(int index)
         {
 
-            int i = 0;
-
-            foreach(Entity child in _children.Values)
-            {
-                if (i == index) return child;
-                i++;
-            }
-
-            throw new KeyNotFoundException();
+            return _children[index];
 
         }
 
         public Entity GetChild(string entityName)
         {
 
-            if (_children.ContainsKey(entityName))
+            foreach(Entity child in _children)
             {
-                return _children[entityName];
+                if(child.Name == entityName) return child;
             }
-            else
-            {
-                throw new KeyNotFoundException();
-            }
-
+            
+            throw new KeyNotFoundException();
+        
         }
 
         public Entity[] GetChildren()
         {
 
-            return _children.Values.ToArray();
+            return _children.ToArray();
 
         }
 

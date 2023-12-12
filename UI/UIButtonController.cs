@@ -1,4 +1,5 @@
 ﻿using ASCIIEngine.Core;
+using ASCIIEngine.Utility;
 using System;
 using System.Drawing;
 
@@ -7,68 +8,78 @@ namespace ASCIIEngine.UI
     public class UIButtonController : Component
     {
 
-        public int ButtonCount 
-        { 
-            get
-            {
-                return GetButtonCount();
-            } 
-        }
+        public bool Focus { get; set; }
 
-        private Transform _transform;
+        private List<UIButton> _buttons = new List<UIButton>();
+        private int _currentlySelected;
+        private bool _justChanged;
 
-        protected override void Start()
+        protected override void Initialize()
         {
 
-            _transform = GetComponent<Transform>();
+            _justChanged = false;
 
         }
 
         protected override void Update()
         {
 
+            if (_justChanged)
+            {
+                _buttons[_currentlySelected].Selected = true;
+            }
 
+            if (Focus)
+            {
+
+                if (Input.IsKeyJustPressed(Key.ArrowDown) && _currentlySelected < _buttons.Count - 1)
+                {
+                    _buttons[_currentlySelected].Selected = false;
+                    _currentlySelected++;
+                    _justChanged = true;
+                }
+                else if(Input.IsKeyJustPressed(Key.ArrowUp) && _currentlySelected > 0)
+                {
+                    _buttons[_currentlySelected].Selected = false;
+                    _currentlySelected--;
+                    _justChanged = true;
+                }
+
+                if (Input.IsKeyJustPressed(Key.Enter))
+                {
+                    _buttons[_currentlySelected].OnClick?.Invoke();
+                }
+
+            }
 
         }
 
-        public void AddButton(string name, string text, Color foregroundColor, Color backgroundColor, Color foregroundColorHighlight, Color backgroundColorHighlight)
+        public void AddButton(string name, string text, Color foregroundColor, Color backgroundColor, Color foregroundColorHighlight, Color backgroundColorHighlight, Action onClick)
         {
 
             Entity entity = Entity.AddChild(name);
             UIButton button = entity.AddComponent<UIButton>();
             Transform transform = entity.GetComponent<Transform>();
 
-            int buttonCount = ButtonCount;
-
             button.Text = text;
             button.ForegroundColor = foregroundColor;
             button.BackgroundColor = backgroundColor;
             button.ForegroundColorHighlight = foregroundColorHighlight;
             button.BackgroundColorHighlight = backgroundColorHighlight;
+            button.OnClick = onClick;
 
-            transform.Position = new Vector2(_transform.Position.X, _transform.Position.Y + (buttonCount));
+            transform.Position = new Vector2(Transform.Position.X, Transform.Position.Y + (_buttons.Count));
 
-            if (buttonCount == 0) button.Selected = true;
+            _buttons.Add(button);
 
-        }
-
-        public void AddButton(string name, string text)
-        {
-
-            AddButton(name, text, Color.Black, Color.White, Color.Black, Color.LightBlue);
+            if (_buttons.Count == 1) button.Selected = true;
 
         }
-        private int GetButtonCount()
+
+        public void AddButton(string name, string text, Action onClick)
         {
 
-            int counter = 0;
-
-            foreach(Entity entity in Entity.GetChildren())
-            {
-                if (entity.GetComponent<UIButton>() != null) counter++;
-            }
-
-            return counter;
+            AddButton(name, text, Color.Black, Color.White, Color.Black, Color.LightBlue, onClick);
 
         }
 

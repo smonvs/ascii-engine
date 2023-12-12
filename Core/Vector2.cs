@@ -18,6 +18,12 @@
             Y = y;
         }
 
+        public Vector2(Vector2 copy)
+        {
+            X = copy.X;
+            Y = copy.Y;
+        }
+
         public static Vector2 operator +(Vector2 v1, Vector2 v2)
         {
             return new Vector2(v1.X + v2.X, v1.Y + v2.Y);
@@ -31,6 +37,11 @@
         public static Vector2 operator -(Vector2 v1, Vector2 v2)
         {
             return new Vector2(v1.X - v2.X, v1.Y - v2.Y);
+        }
+
+        public static Vector2 operator -(Vector2 v, int i)
+        {
+            return new Vector2(v.X - i, v.Y - i);
         }
 
         public static Vector2 operator *(Vector2 v1, Vector2 v2)
@@ -66,6 +77,6 @@
                 return true;
             }
         }
- 
+
     }
 }

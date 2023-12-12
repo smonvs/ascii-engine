@@ -12,6 +12,7 @@ namespace ASCIIEngine.Utility
         private static ConsoleColor _defaultColor = ConsoleColor.White;
         private static ConsoleColor _warningColor = ConsoleColor.DarkYellow;
         private static ConsoleColor _errorColor = ConsoleColor.Red;
+        private static ConsoleColor _debugColor = ConsoleColor.Cyan;
 
         public static void Write(string text)
         {
@@ -33,6 +34,15 @@ namespace ASCIIEngine.Utility
         {
 
             Console.ForegroundColor = _errorColor;
+            Write(text);
+            Console.ForegroundColor = _defaultColor;
+
+        }
+
+        public static void WriteDebug(string text)
+        {
+
+            Console.ForegroundColor = _debugColor;
             Write(text);
             Console.ForegroundColor = _defaultColor;
 
