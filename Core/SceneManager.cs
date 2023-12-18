@@ -87,7 +87,7 @@ namespace ASCIIEngine.Core
 
             foreach (Scene scene in _scenes.Values)
             {
-                if (scene.IsActive) scene.UpdateEntities();
+                if (scene.IsActive) scene.UpdateScreens();
             }
 
         }
@@ -95,7 +95,7 @@ namespace ASCIIEngine.Core
         internal void DrawCurrentScene()
         {
 
-            _currentScene.DrawEntities();
+            _currentScene.DrawScreens();
 
         }
 

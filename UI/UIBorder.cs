@@ -1,6 +1,8 @@
 ﻿using ASCIIEngine.Core;
+using ASCIIEngine.Utility;
 using System;
 using System.Drawing;
+using System.Text;
 
 namespace ASCIIEngine.UI
 {
@@ -41,28 +43,28 @@ namespace ASCIIEngine.UI
 
             //top left
             cell = cells[position.X, position.Y];
-            cell.Char = (char)43;
+            cell.Char = '\u2554';
             cell.ZIndex = 255;
             cell.ForegroundColor = ForegroundColor;
             cell.BackgroundColor = BackgroundColor;
 
             //top right
             cell = cells[End.X, position.Y];
-            cell.Char = (char)43;
+            cell.Char = '\u2557';
             cell.ZIndex = 255;
             cell.ForegroundColor = ForegroundColor;
             cell.BackgroundColor = BackgroundColor;
 
             //bottom left
             cell = cells[position.X, End.Y];
-            cell.Char = (char)43;
+            cell.Char = '\u255A';
             cell.ZIndex = 255;
             cell.ForegroundColor = ForegroundColor;
             cell.BackgroundColor = BackgroundColor;
 
             //bottom right
             cell = cells[End.X, End.Y];
-            cell.Char = (char)43;
+            cell.Char = '\u255D';
             cell.ZIndex = 255;
             cell.ForegroundColor = ForegroundColor;
             cell.BackgroundColor = BackgroundColor;
@@ -71,7 +73,7 @@ namespace ASCIIEngine.UI
             for (int i = position.X + 1; i < End.X; i++)
             {
                 cell = cells[i, position.Y];
-                cell.Char = (char)45;
+                cell.Char = '\u2550';
                 cell.ZIndex = 255;
                 cell.ForegroundColor = ForegroundColor;
                 cell.BackgroundColor = BackgroundColor;
@@ -81,7 +83,7 @@ namespace ASCIIEngine.UI
             for (int i = position.X + 1; i < End.X; i++)
             {
                 cell = cells[i, End.Y];
-                cell.Char = (char)45;
+                cell.Char = '\u2550';
                 cell.ZIndex = 255;
                 cell.ForegroundColor = ForegroundColor;
                 cell.BackgroundColor = BackgroundColor;
@@ -91,7 +93,7 @@ namespace ASCIIEngine.UI
             for (int i = position.Y + 1; i < End.Y; i++)
             {
                 cell = cells[position.X, i];
-                cell.Char = (char)124;
+                cell.Char = '\u2551';
                 cell.ZIndex = 255;
                 cell.ForegroundColor = ForegroundColor;
                 cell.BackgroundColor = BackgroundColor;
@@ -101,7 +103,7 @@ namespace ASCIIEngine.UI
             for (int i = position.Y + 1; i < End.Y; i++)
             {
                 cell = cells[End.X, i];
-                cell.Char = (char)124;
+                cell.Char = '\u2551';
                 cell.ZIndex = 255;
                 cell.ForegroundColor = ForegroundColor;
                 cell.BackgroundColor = BackgroundColor;

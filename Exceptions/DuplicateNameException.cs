@@ -9,12 +9,22 @@ namespace ASCIIEngine.Exceptions
 
         public DuplicateNameException(string objectName, string sceneName)
         {
-            Log.WriteWarning($"DuplicateNameException thrown by {objectName} '{sceneName}'");
+            Log.WriteError($"DuplicateNameException thrown by {objectName} '{sceneName}'");
         }
 
         public DuplicateNameException(string screenName, Scene scene)
         {
-            Log.WriteWarning($"DuplicateNameException thrown by Screen '{screenName}' in Scene '{scene.Name}'");
+            Log.WriteError($"DuplicateNameException thrown by Screen '{screenName}' in Scene '{scene.Name}'");
+        }
+
+        public DuplicateNameException(Blueprint blueprint)
+        {
+            Log.WriteError($"DuplicateNameException thrown while adding new Blueprint '{blueprint.Name}'");
+        }
+
+        public DuplicateNameException(string resourceName)
+        {
+            Log.WriteError($"DuplicateNameException thrown while adding new object '{resourceName}' to Resources");
         }
 
     }

@@ -7,13 +7,12 @@ namespace ASCIIEngine.Core
     public class Scene
     {
 
-        public bool IsActive { get { return _isActive; } set { SetActivity(value); } }
+        public bool IsActive { get { return _isActive; } internal set { SetActivity(value); } }
         public string Name { get; private set; }
 
-        private Dictionary<string, Screen> _screens = new Dictionary<string, Screen>();
-        private List<Entity> _entities = new List<Entity>();
         private bool _isActive;
-
+        private List<Screen> _screens = new List<Screen>();
+        
         internal Scene(string name)
         {
             Name = name;
@@ -40,8 +39,8 @@ namespace ASCIIEngine.Core
 
             if (GetScreen(screenName) != null) throw new DuplicateNameException(screenName, this);
 
-            Screen newScreen = new Screen(screenName, start, end);
-            _screens.Add(screenName, newScreen);
+            Screen newScreen = new Screen(screenName, start, end, this);
+            _screens.Add(newScreen);
 
             return newScreen;
 
@@ -50,75 +49,31 @@ namespace ASCIIEngine.Core
         public Screen GetScreen(string screenName)
         {
 
-            if (_screens.ContainsKey(screenName))
+            foreach(Screen screen in _screens)
             {
-                return _screens[screenName];
-            }
-            else
-            {
-                return null;
-            }
-
-        }
-
-        public Entity AddEntity(string entityName)
-        {
-
-            return AddEntity(entityName, null);
-
-        }
-
-        public Entity AddEntity(string entityName, Entity parent)
-        {
-
-            if (GetEntity(entityName) != null) throw new DuplicateNameException("Entity", entityName);
-
-            Entity newEntity = new Entity(entityName, this, parent);
-            _entities.Add(newEntity);
-
-            if(parent == null)
-            {
-                Log.Write($"Entity '{entityName}' created in scene '{Name}'");
-            }
-            else
-            {
-                Log.Write($"Entity '{newEntity.Name}' created as child to Entity '{parent.Name}' in scene '{this.Name}'");
-            }
-
-            newEntity.AddComponent<Transform>();
-
-            return newEntity;
-
-        }
-
-        public Entity GetEntity(string entityName)
-        {
-
-            foreach(Entity entity in _entities)
-            {
-                if (entity.Name == entityName) return entity;
+                if (screen.Name == screenName) return screen;
             }
 
             return null;
 
         }
 
-        internal void UpdateEntities()
+        internal void UpdateScreens()
         {
 
-            for(int i = 0; i < _entities.Count; i++)
+            for(int i = 0; i < _screens.Count; i++)
             {
-                if (_entities[i].IsActive) _entities[i].UpdateComponents();
+                if (_screens[i].IsActive) _screens[i].UpdateEntities();
             }
 
         }
 
-        internal void DrawEntities()
+        internal void DrawScreens()
         {
 
-            for(int i = 0; i < _entities.Count; i++)
+            for(int i = 0; i < _screens.Count; i++)
             {
-                if (_entities[i].IsActive && _entities[i].IsVisible) _entities[i].DrawComponents();
+                if (_screens[i].IsActive) _screens[i].DrawEntities();
             }
 
         }

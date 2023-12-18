@@ -15,7 +15,6 @@ namespace ASCIIEngine.UI
         public bool Selected { get; set; }
         public Action OnClick { get; set; }
 
-
         private Transform _transform;
         private Core.Buffer _buffer;
 
@@ -43,10 +42,24 @@ namespace ASCIIEngine.UI
         {
 
             Vector2 position = _transform.Position;
-
-            for(int i = 0; i < Text.Length; i++)
+            
+            BufferCell cell = _buffer.Cells[position.X, position.Y];
+            cell.Char = ' ';
+            cell.ZIndex = 255;
+            if (Selected)
             {
-                BufferCell cell = _buffer.Cells[position.X + i, position.Y];
+                cell.ForegroundColor = ForegroundColorHighlight;
+                cell.BackgroundColor = BackgroundColorHighlight;
+            }
+            else
+            {
+                cell.ForegroundColor = ForegroundColor;
+                cell.BackgroundColor = BackgroundColor;
+            }
+
+            for (int i = 0; i < Text.Length; i++)
+            {
+                cell = _buffer.Cells[position.X + (i + 1), position.Y];
                 cell.Char = Text[i];
                 cell.ZIndex = 255;
                 if (Selected)
@@ -59,6 +72,20 @@ namespace ASCIIEngine.UI
                     cell.ForegroundColor = ForegroundColor;
                     cell.BackgroundColor = BackgroundColor;
                 }
+            }
+
+            cell = _buffer.Cells[Text.Length + 1, position.Y];
+            cell.Char = ' ';
+            cell.ZIndex = 255;
+            if (Selected)
+            {
+                cell.ForegroundColor = ForegroundColorHighlight;
+                cell.BackgroundColor = BackgroundColorHighlight;
+            }
+            else
+            {
+                cell.ForegroundColor = ForegroundColor;
+                cell.BackgroundColor = BackgroundColor;
             }
 
         }

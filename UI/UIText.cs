@@ -39,9 +39,9 @@ namespace ASCIIEngine.UI
 
             Vector2 position = Position;
 
-            for(int i = 0; i < Text.Length; i++)
+            for (int i = 0; i < Text.Length; i++)
             {
-                if((position.X + i) < (WindowInfo.ScreenWidth))
+                if ((position.X + i) < (WindowInfo.ScreenWidth))
                 {
                     BufferCell cell = _buffer.Cells[position.X + i, position.Y];
                     cell.Char = Text[i];

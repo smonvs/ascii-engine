@@ -131,7 +131,7 @@ namespace ASCIIEngine.Core
         [DllImport("gdi32.dll", SetLastError = true)]
         public static extern IntPtr SelectObject(IntPtr hdc, IntPtr hgdiobj);
 
-        [DllImport("gdi32.dll", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool TextOut(IntPtr hdc, int nXStart, int nYStart, string lpString, int c);
         
@@ -167,6 +167,16 @@ namespace ASCIIEngine.Core
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
 
+        [DllImport("user32.dll")]
+        static extern bool DrawIconEx(IntPtr hdc, int xLeft, int yTop, IntPtr hIcon, int cxWidth, int cyWidth, int istepIfAniCur, IntPtr hbrFlickerFreeDraw, int diFlags);
+        
+        [DllImport("gdi32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool AddFontResource(string lpszFilename);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern int GetLastError();
+
         private IntPtr hMainWnd;
         private IntPtr hdc;
 
@@ -195,6 +205,7 @@ namespace ASCIIEngine.Core
         public void Build()
         {
 
+
             WNDCLASS wc = new WNDCLASS()
             {
                 style = 0,
@@ -214,9 +225,9 @@ namespace ASCIIEngine.Core
                 "Window",
                 _windowTitle,
                 WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-                300,
-                300,
-                rect.right - rect.left,
+                100,
+                100,
+                rect.right - rect.left - 1,
                 rect.bottom - rect.top,
                 IntPtr.Zero,
                 IntPtr.Zero,
@@ -227,7 +238,27 @@ namespace ASCIIEngine.Core
             int currentStyle = GetWindowLong(hMainWnd, GWL_STYLE);
             SetWindowLong(hMainWnd, GWL_STYLE, currentStyle & ~WS_MINIMIZEBOX & ~WS_MAXIMIZEBOX & ~WS_THICKFRAME);
 
-            _hFont = CreateFont(16, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, "Consolas");
+            /*bool fontImport = AddFontResource("C:/Users/Dev/Downloads/ModernDOS8x16.ttf");
+            Log.WriteDebug(fontImport.ToString());
+            if (fontImport)
+            {*/
+                // Erstellen der Schriftart mit CreateFont
+                _hFont = CreateFont(
+                    16,         // nHeight
+                    0,          // nWidth
+                    0,          // nEscapement
+                    0,          // nOrientation
+                    400,        // fnWeight
+                    0,          // fdwItalic
+                    0,          // fdwUnderline
+                    0,          // fdwStrikeOut
+                    1,          // fdwCharSet (DEFAULT_CHARSET)
+                    0,          // fdwOutputPrecision
+                    0,          // fdwClipPrecision
+                    0,          // fdwQuality
+                    0,          // fdwPitchAndFamily
+                    "Courier New");
+            //}
 
             hdc = GetDC(hMainWnd);
             GetWindowRect(hMainWnd, ref rect);
@@ -268,7 +299,7 @@ namespace ASCIIEngine.Core
         {
 
             BufferCell[,] cells = _bufferManager.Buffer.Cells;
-            
+
             for (int y = 0; y < cells.GetLength(1); y++)
             {
                 for (int x = 0; x < cells.GetLength(0); x++)
@@ -277,8 +308,8 @@ namespace ASCIIEngine.Core
                     BufferCell cell = cells[x, y];
                     BufferCell lastCell = _lastBuffer.Cells[x, y];
 
-                    if(cell.Char != lastCell.Char || 
-                       cell.ForegroundColor != lastCell.ForegroundColor || 
+                    if (cell.Char != lastCell.Char ||
+                       cell.ForegroundColor != lastCell.ForegroundColor ||
                        cell.BackgroundColor != lastCell.BackgroundColor)
                     {
                         DrawCharacter(cell.Char.ToString(), x, y, cell.ForegroundColor, cell.BackgroundColor);
@@ -291,9 +322,8 @@ namespace ASCIIEngine.Core
 
                 }
             }
-
+        
         }
-
 
         private void DrawCharacter(string characters, int x, int y, Color foregroundColor, Color backgroundColor)
         {

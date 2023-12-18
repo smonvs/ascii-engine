@@ -10,20 +10,21 @@ namespace ASCIIEngine.Core
         public bool IsActive { get; set; }
         public bool IsVisible { get; set; }
         public string Name { get; private set; }
-        public Scene Scene { get; private set; }
+        public Screen Screen { get; private set; }
+        public Scene Scene { get { return Screen.Scene; } }
         public Transform Transform { get; private set; }
 
         private List<Component> _components = new List<Component>();
         private List<Entity> _children = new List<Entity>();
         private Entity _parent;
 
-        internal Entity(string entityName, Scene scene, Entity parent)
+        internal Entity(string entityName, Screen screen, Entity parent)
         {
         
             IsActive = true;
             IsVisible = true;
             Name = entityName;
-            Scene = scene;
+            Screen = screen;
             _parent = parent;
         }
 
@@ -66,7 +67,7 @@ namespace ASCIIEngine.Core
         public Entity AddChild(string entityName)
         {
 
-            Entity newChild = Scene.AddEntity(entityName, this);
+            Entity newChild = Screen.AddEntity(entityName, this);
             _children.Add(newChild);
 
             return newChild;

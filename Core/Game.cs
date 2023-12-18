@@ -51,7 +51,7 @@ namespace ASCIIEngine.Core
                 
                 Update();
                 Draw();
-                
+
                 _window.DrawToScreen();
                 _bufferManager.ClearBuffer();
                 
